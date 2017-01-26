@@ -1,0 +1,29 @@
+{
+  "Repository": "cli",
+  "Definitions": {
+    "Path": ".",
+    "Type": "VSTS",
+    "BaseUrl": "https://devdiv.visualstudio.com/DefaultCollection"
+  },
+  "Pipelines": [
+    {
+      "Name": "Trusted-All-Release",
+      "Parameters": {
+        "TreatWarningsAsErrors": "false"
+      },
+      "BuildParameters": {
+        "BuildConfiguration": "Release"
+      },
+      "Definitions": [
+        {
+          "Name": "DotNet-CLI-CentOS-x64",
+          "ReportingParameters": {
+            "OperatingSystem": "CentOS 7.1",
+            "Type": "build/product/",
+            "Platform": "x64"
+          }
+        }
+      ]
+    }
+  ]
+}
