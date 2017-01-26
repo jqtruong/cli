@@ -69,7 +69,7 @@
       "allowOverride": true
     },
     "BuildArguments": {
-      "value": "--skip-prereqs --configuration $(BuildConfiguration)  --docker centos --targets Default",
+      "value": "--skip-prereqs --configuration $(BuildConfiguration)  --docker opensuse.13.2 --targets Default",
       "allowOverride": true
     },
     "CONNECTION_STRING": {
@@ -113,7 +113,7 @@
       "branches": [
         "+refs/heads/*"
       ],
-      "artifacts": [ ],
+      "artifacts": [],
       "artifactTypesToDelete": [
         "FilePath",
         "SymbolStore"
@@ -160,7 +160,7 @@
   "path": "\\",
   "type": "build",
   "id": 1,
-  "name": "DotNet-CLI-CentOS-x64",
+  "name": "DotNet-CLI-opensuse13.2-x64",
   "project": {
     "id": "0bdbc590-a062-4c3f-b0f6-9383f67865ee",
     "name": "DevDiv",

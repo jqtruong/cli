@@ -69,7 +69,7 @@
       "allowOverride": true
     },
     "BuildArguments": {
-      "value": "--skip-prereqs --configuration $(BuildConfiguration)  --docker centos --targets Default",
+      "value": "--skip-prereqs --configuration $(BuildConfiguration) --docker ubuntu.14.04 --targets Default",
       "allowOverride": true
     },
     "CONNECTION_STRING": {
@@ -78,6 +78,18 @@
     "PUBLISH_TO_AZURE_BLOB": {
       "value": "",
       "allowOverride": true
+    },
+    "REPO_ID": {
+      "value": "562fbfe0b2d7d0e0a43780c4"
+    },
+    "REPO_USER": {
+      "value": "dotnet"
+    },
+    "REPO_PASS": {
+      "value": "PassedViaPipeBuild"
+    },
+    "REPO_SERVER": {
+      "value": "azure-apt-cat.cloudapp.net"
     },
     "GITHUB_PASSWORD": {
       "value": "PassedViaPipeBuild"
@@ -99,10 +111,6 @@
     },
     "CHECKSUM_STORAGE_CONTAINER": {
       "value": "dotnet"
-    },
-    "CLIBUILD_SKIP_TESTS": {
-      "value": "true",
-      "allowOverride": true
     }
   },
   "demands": [
@@ -113,7 +121,9 @@
       "branches": [
         "+refs/heads/*"
       ],
-      "artifacts": [ ],
+      "artifacts": [
+        "build.SourceLabel"
+      ],
       "artifactTypesToDelete": [
         "FilePath",
         "SymbolStore"
@@ -160,7 +170,7 @@
   "path": "\\",
   "type": "build",
   "id": 1,
-  "name": "DotNet-CLI-CentOS-x64",
+  "name": "Dotnet-CLI-Ubuntu14.04-x64",
   "project": {
     "id": "0bdbc590-a062-4c3f-b0f6-9383f67865ee",
     "name": "DevDiv",
