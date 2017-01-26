@@ -144,12 +144,11 @@
     "type": "GitHub",
     "name": "dotnet/cli",
     "url": "https://github.com/dotnet/cli.git",
-    "defaultBranch": "rel/1.0.0",
+    "defaultBranch": "naamunds/build_defs",
     "clean": "true",
     "checkoutSubmodules": false
   },
   "quality": "definition",
-  "defaultBranch": "rel/1.0.0",
   "queue": {
     "pool": {
       "id": 39,
