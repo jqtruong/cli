@@ -41,7 +41,7 @@
       "enabled": true,
       "continueOnError": false,
       "alwaysRun": false,
-      "displayName": "Sign assemblies",
+      "displayName": "Sign Assemblies",
       "timeoutInMinutes": 0,
       "task": {
         "id": "c6c4c611-aa2e-4a33-b606-5eaba2196824",
@@ -68,7 +68,7 @@
       "enabled": true,
       "continueOnError": false,
       "alwaysRun": false,
-      "displayName": "Sign nupkg contents",
+      "displayName": "Sign NuPkg Contents",
       "timeoutInMinutes": 0,
       "task": {
         "id": "c6c4c611-aa2e-4a33-b606-5eaba2196824",
@@ -133,7 +133,7 @@
       "enabled": true,
       "continueOnError": false,
       "alwaysRun": false,
-      "displayName": "Sign MSI and cab",
+      "displayName": "Sign MSI and CAB",
       "timeoutInMinutes": 0,
       "task": {
         "id": "c6c4c611-aa2e-4a33-b606-5eaba2196824",
@@ -160,7 +160,7 @@
       "enabled": true,
       "continueOnError": false,
       "alwaysRun": false,
-      "displayName": "Generate bundle",
+      "displayName": "Generate Bundle",
       "timeoutInMinutes": 0,
       "task": {
         "id": "bfc8bf76-e7ac-4a8c-9a55-a944a9f632fd",
@@ -179,7 +179,7 @@
       "enabled": true,
       "continueOnError": false,
       "alwaysRun": false,
-      "displayName": "Extract Engine from bundle",
+      "displayName": "Extract Engine from Bundle",
       "timeoutInMinutes": 0,
       "task": {
         "id": "bfc8bf76-e7ac-4a8c-9a55-a944a9f632fd",
@@ -225,7 +225,7 @@
       "enabled": true,
       "continueOnError": false,
       "alwaysRun": false,
-      "displayName": "Reattach Engine to bundle",
+      "displayName": "Reattach Engine to Bundle",
       "timeoutInMinutes": 0,
       "task": {
         "id": "bfc8bf76-e7ac-4a8c-9a55-a944a9f632fd",
@@ -345,7 +345,7 @@
       "enabled": false,
       "continueOnError": false,
       "alwaysRun": false,
-      "displayName": "Publish windows installer nupkg to VS Feed",
+      "displayName": "Publish Windows Installer NuPkg to VS Feed",
       "timeoutInMinutes": 0,
       "task": {
         "id": "e213ff0f-5d5c-4791-802d-52ea3e7be1f1",
@@ -365,7 +365,7 @@
       "enabled": false,
       "continueOnError": false,
       "alwaysRun": false,
-      "displayName": "Publish windows installer nupkg to VS Feed",
+      "displayName": "Publish Windows Installer NuPkg to VS Feed",
       "timeoutInMinutes": 0,
       "task": {
         "id": "333b11bd-d341-40d9-afcf-b32d5ce6f25b",
