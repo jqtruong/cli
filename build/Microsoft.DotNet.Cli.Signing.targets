@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <!-- this will be overriden if we're building with MicroBuild -->
+  <!-- This will be overridden if we're building with MicroBuild. -->
   <Target Name="SignFiles">
     <Message Text="Fake sign target.  Would sign: @(FilesToSign)" />
   </Target>
@@ -15,11 +15,6 @@
   <Import Project="$(RepoRoot)\build_tools\MicroBuild.Core.props" />
   <Import Project="$(RepoRoot)\build_tools\MicroBuild.Core.targets" />
 
-  <PropertyGroup>
-    <InternalCertificateId Condition="'$(InternalCertificateId)' == ''">400</InternalCertificateId>
-    <ExternalCertificateId Condition="'$(ExternalCertificateId)' == ''">135020001</ExternalCertificateId>
-  </PropertyGroup>
-
   <Target Name="PostCompileSign" DependsOnTargets="GetPostCompileSignFiles">
     <CallTarget Targets="SignFiles" />
   </Target>
@@ -27,12 +22,12 @@
   <Target Name="GetPostCompileSignFiles" DependsOnTargets="Init">
     <ItemGroup>
       <!-- External files -->
-      <!--<FilesToSign Include="$(OutputDirectory)sdk/**/Newtonsoft.Json.dll">
+      <FilesToSign Include="$(OutputDirectory)sdk/**/Newtonsoft.Json.dll">
         <Authenticode>$(ExternalCertificateId)</Authenticode>
       </FilesToSign>
       <FilesToSign Include="$(OutputDirectory)shared/**/libuv.dll">
         <Authenticode>$(ExternalCertificateId)</Authenticode>
-      </FilesToSign>-->
+      </FilesToSign>
       <!-- Built binaries -->
       <FilesToSign Include="$(OutputDirectory)sdk/**/csc.exe">
         <Authenticode>$(InternalCertificateId)</Authenticode>
@@ -40,7 +35,7 @@
       <FilesToSign Include="$(OutputDirectory)sdk/**/csc.dll">
         <Authenticode>$(InternalCertificateId)</Authenticode>
       </FilesToSign>
-      <FilesToSign Include="$(OutputDirectory)sdk/**/*dotnet*.dll">
+      <FilesToSign Include="$(OutputDirectory)sdk/**/dotnet.dll">
         <Authenticode>$(InternalCertificateId)</Authenticode>
       </FilesToSign>
       <FilesToSign Include="$(OutputDirectory)sdk/**/System.*.dll">
@@ -77,11 +72,11 @@
     </ItemGroup>
   </Target>
 
-  <Target Name="SignNuPkgContents" DependsOnTargets="GetNuPkgContentsFiles">
+  <Target Name="SignNuPkgContents" DependsOnTargets="GetSignNuPkgContentsFiles">
     <CallTarget Targets="SignFiles" />
   </Target>
 
-  <Target Name="GetNuPkgContentsFiles" DependsOnTargets="Init">
+  <Target Name="GetSignNuPkgContentsFiles" DependsOnTargets="Init">
     <PropertyGroup>
       <OutDir>$(RepoRoot)/src/Microsoft.DotNet.Cli.Utils</OutDir>
     </PropertyGroup>
@@ -102,11 +97,11 @@
     </ItemGroup>
   </Target>
 
-  <Target Name="SignPackages" DependsOnTargets="GetSignPackagesFiles">
+  <Target Name="SignMsiAndCab" DependsOnTargets="GetSignMsiAndCabFiles">
     <CallTarget Targets="SignFiles" />
   </Target>
 
-  <Target Name="GetSignPackagesFiles" DependsOnTargets="Init">
+  <Target Name="GetSignMsiAndCabFiles" DependsOnTargets="Init">
     <PropertyGroup>
       <OutDir>$(PackagesDirectory)</OutDir>
     </PropertyGroup>
@@ -135,11 +130,11 @@
     </ItemGroup>
   </Target>
 
-  <Target Name="SignCliBundle" DependsOnTargets="GetSignBundleFiles">
+  <Target Name="SignCliBundle" DependsOnTargets="GetSignCliBundleFiles">
     <CallTarget Targets="SignFiles" />
   </Target>
 
-  <Target Name="GetSignBundleFiles" DependsOnTargets="Init">
+  <Target Name="GetSignCliBundleFiles" DependsOnTargets="Init">
     <PropertyGroup>
       <OutDir>$(PackagesDirectory)</OutDir>
     </PropertyGroup>
@@ -149,38 +144,5 @@
       </FilesToSign>
     </ItemGroup>
   </Target>
-
-  <Target Name="BeforeBuild" BeforeTargets="InitializeCommonProps" Condition="'$(SkipMsBuild15Projects)' == 'True'">
-    <HandleAssemblyResolve SearchPath="$(RepoRoot)\build_tools" />
-  </Target>
-  <UsingTask TaskName="HandleAssemblyResolve" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll" Condition="'$(SkipMsBuild15Projects)' == 'True'" >
-    <ParameterGroup>
-      <SearchPath ParameterType="System.String" Required="true" />
-    </ParameterGroup>
-    <Task>
-      <Using Namespace="System" />
-      <Using Namespace="System.IO" />
-      <Using Namespace="System.Reflection" />
-      <Code Type="Fragment" Language="cs">
-        <![CDATA[
-AppDomain.CurrentDomain.AssemblyResolve += (sender, e) => 
-{ 
-  var assemblySearchPath = Path.Combine(SearchPath, e.Name.Split(',')[0] + ".dll");
-  Console.WriteLine("Searching " + assemblySearchPath);
-  if (File.Exists(assemblySearchPath)) 
-  {
-    Console.WriteLine("Found");
-    return Assembly.LoadFrom(assemblySearchPath);
-  }
-  else
-  {
-    Console.WriteLine("Not found");
-  }
-  return null;
-};
-]]>
-      </Code>
-    </Task>
-  </UsingTask>
 
 </Project>
