@@ -67,6 +67,11 @@ get_current_os_name() {
         if [ -e /etc/os-release ]; then
             . /etc/os-release
 
+            if [[ $ID == "arch" ]]; then
+                echo "arch"
+                return 0
+            fi
+
             case "$ID.$VERSION_ID" in
                 "centos.7")
                     echo "centos"
