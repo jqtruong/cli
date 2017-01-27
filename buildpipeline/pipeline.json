@@ -64,6 +64,22 @@
           }
         },
         {
+          "Name": "DotNet-CLI-Signing-Windows-x64",
+          "ReportingParameters": {
+            "OperatingSystem": "Windows",
+            "Type": "build/product/",
+            "Platform": "x64"
+          }
+        },
+        //{
+        //  "Name": "DotNet-CLI-Signing-Windows-x86",
+        //  "ReportingParameters": {
+        //    "OperatingSystem": "Windows",
+        //    "Type": "build/product/",
+        //    "Platform": "x86"
+        //  }
+        //},
+        {
           "Name": "DotNet-CLI-Ubuntu14.04-x64",
           "ReportingParameters": {
             "OperatingSystem": "Ubuntu 14.04",
