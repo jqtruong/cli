@@ -31,7 +31,7 @@
       },
       "inputs": {
         "filename": "build.cmd",
-        "arguments": "/p:Configuration=$(BuildConfiguration) /t:Compile",
+        "arguments": "-Architecture $(BuildArchitecture) /p:Configuration=$(BuildConfiguration) /t:Compile /v:normal",
         "modifyEnvironment": "false",
         "workingFolder": "",
         "failOnStandardError": "false"
@@ -60,7 +60,7 @@
         "createLogFile": "false",
         "msbuildLocationMethod": "version",
         "msbuildVersion": "15.0",
-        "msbuildArchitecture": "x64",
+        "msbuildArchitecture": "$(BuildArchitecture)",
         "msbuildLocation": ""
       }
     },
@@ -68,7 +68,7 @@
       "enabled": true,
       "continueOnError": false,
       "alwaysRun": false,
-      "displayName": "Sign NuPkg Contents",
+      "displayName": "Sign Shared Framework Crossgened Assemblies",
       "timeoutInMinutes": 0,
       "task": {
         "id": "c6c4c611-aa2e-4a33-b606-5eaba2196824",
@@ -79,7 +79,7 @@
         "solution": "build.proj",
         "platform": "",
         "configuration": "$(BuildConfiguration)",
-        "msbuildArguments": "/t:SignNuPkgContents $(MsbuildSigningArguments)",
+        "msbuildArguments": "/t:SignSharedFrameworkCrossgenedAssemblies $(MsbuildSigningArguments)",
         "clean": "false",
         "maximumCpuCount": "false",
         "restoreNugetPackages": "false",
@@ -87,12 +87,12 @@
         "createLogFile": "false",
         "msbuildLocationMethod": "version",
         "msbuildVersion": "15.0",
-        "msbuildArchitecture": "x64",
+        "msbuildArchitecture": "$(BuildArchitecture)",
         "msbuildLocation": ""
       }
     },
     {
-      "enabled": false,
+      "enabled": true,
       "continueOnError": false,
       "alwaysRun": false,
       "displayName": "Test",
@@ -104,7 +104,7 @@
       },
       "inputs": {
         "filename": "build.cmd",
-        "arguments": "/p:Configuration=$(BuildConfiguration) /t:Test",
+        "arguments": "-Architecture $(BuildArchitecture) /p:Configuration=$(BuildConfiguration) /t:Compile /v:normal",
         "modifyEnvironment": "false",
         "workingFolder": "",
         "failOnStandardError": "false"
@@ -123,7 +123,7 @@
       },
       "inputs": {
         "filename": "build.cmd",
-        "arguments": "/p:Configuration=$(BuildConfiguration) /t:Package",
+        "arguments": "-Architecture $(BuildArchitecture) /p:Configuration=$(BuildConfiguration) /t:Package /v:normal",
         "modifyEnvironment": "false",
         "workingFolder": "",
         "failOnStandardError": "false"
@@ -152,7 +152,7 @@
         "createLogFile": "false",
         "msbuildLocationMethod": "version",
         "msbuildVersion": "15.0",
-        "msbuildArchitecture": "x64",
+        "msbuildArchitecture": "$(BuildArchitecture)",
         "msbuildLocation": ""
       }
     },
@@ -169,7 +169,7 @@
       },
       "inputs": {
         "filename": "build.cmd",
-        "arguments": "/p:Configuration=$(BuildConfiguration) /t:Package",
+        "arguments": "-Architecture $(BuildArchitecture) /p:Configuration=$(BuildConfiguration) /t:Package /v:normal",
         "modifyEnvironment": "false",
         "workingFolder": "",
         "failOnStandardError": "false"
@@ -188,7 +188,7 @@
       },
       "inputs": {
         "filename": "build.cmd",
-        "arguments": "/p:Configuration=$(BuildConfiguration) /t:ExtractEngineFromSdkBundle",
+        "arguments": "-Architecture $(BuildArchitecture) /p:Configuration=$(BuildConfiguration) /t:ExtractEngineFromSdkBundle /v:normal",
         "modifyEnvironment": "false",
         "workingFolder": "",
         "failOnStandardError": "false"
@@ -217,7 +217,7 @@
         "createLogFile": "false",
         "msbuildLocationMethod": "version",
         "msbuildVersion": "15.0",
-        "msbuildArchitecture": "x64",
+        "msbuildArchitecture": "$(BuildArchitecture)",
         "msbuildLocation": ""
       }
     },
@@ -234,7 +234,7 @@
       },
       "inputs": {
         "filename": "build.cmd",
-        "arguments": "/p:Configuration=$(BuildConfiguration) /t:ReattachEngineToSdkBundle",
+        "arguments": "-Architecture $(BuildArchitecture) /p:Configuration=$(BuildConfiguration) /t:ReattachEngineToSdkBundle /v:normal",
         "modifyEnvironment": "false",
         "workingFolder": "",
         "failOnStandardError": "false"
@@ -263,7 +263,7 @@
         "createLogFile": "false",
         "msbuildLocationMethod": "version",
         "msbuildVersion": "15.0",
-        "msbuildArchitecture": "x64",
+        "msbuildArchitecture": "$(BuildArchitecture)",
         "msbuildLocation": ""
       }
     },
@@ -279,6 +279,25 @@
         "definitionType": "task"
       },
       "inputs": { }
+    },
+    {
+      "enabled": false,
+      "continueOnError": false,
+      "alwaysRun": false,
+      "displayName": "Publish Build Artifacts",
+      "timeoutInMinutes": 0,
+      "task": {
+        "id": "bfc8bf76-e7ac-4a8c-9a55-a944a9f632fd",
+        "versionSpec": "1.*",
+        "definitionType": "task"
+      },
+      "inputs": {
+        "filename": "build.cmd",
+        "arguments": "-Architecture $(BuildArchitecture) /p:Configuration=$(BuildConfiguration) /t:Publish  /v:normal",
+        "modifyEnvironment": "false",
+        "workingFolder": "",
+        "failOnStandardError": "false"
+      }
     },
     {
       "enabled": false,
@@ -304,48 +323,7 @@
       "enabled": false,
       "continueOnError": false,
       "alwaysRun": false,
-      "displayName": "Publish Nuget Packages",
-      "timeoutInMinutes": 0,
-      "task": {
-        "id": "333b11bd-d341-40d9-afcf-b32d5ce6f25b",
-        "versionSpec": "0.*",
-        "definitionType": "task"
-      },
-      "inputs": {
-        "searchPattern": "artifacts\\$(RID)\\packages\\Microsoft*.nupkg",
-        "nuGetFeedType": "external",
-        "connectedServiceName": "fa504fb6-81cb-411f-b48c-08eb7b22eff0",
-        "feedName": "",
-        "nuGetAdditionalArgs": "",
-        "verbosity": "-",
-        "nuGetVersion": "3.3.0",
-        "nuGetPath": "$(BUILD_REPOSITORY_LOCALPATH)\\.nuget\\nuget.exe"
-      }
-    },
-    {
-      "enabled": false,
-      "continueOnError": false,
-      "alwaysRun": false,
-      "displayName": "Publish Build Artifacts",
-      "timeoutInMinutes": 0,
-      "task": {
-        "id": "bfc8bf76-e7ac-4a8c-9a55-a944a9f632fd",
-        "versionSpec": "1.*",
-        "definitionType": "task"
-      },
-      "inputs": {
-        "filename": "build.cmd",
-        "arguments": "/p:Configuration=$(BuildConfiguration) /t:Publish",
-        "modifyEnvironment": "false",
-        "workingFolder": "",
-        "failOnStandardError": "false"
-      }
-    },
-    {
-      "enabled": false,
-      "continueOnError": false,
-      "alwaysRun": false,
-      "displayName": "Publish Windows Installer NuPkg to VS Feed",
+      "displayName": "Publish Windows Installer Nupkg to VS Feed",
       "timeoutInMinutes": 0,
       "task": {
         "id": "e213ff0f-5d5c-4791-802d-52ea3e7be1f1",
@@ -356,7 +334,7 @@
         "scriptType": "inlineScript",
         "scriptName": "",
         "arguments": "$(VS_FEED_PASSWORD)",
-        "inlineScript": "$NuGetExe = Join-Path $env:BUILD_REPOSITORY_LOCALPATH \".nuget\\nuget.exe\"\n$Nupkg = Join-Path $env:BUILD_REPOSITORY_LOCALPATH \"artifacts\\$env:RID\\packages\\VS.Redist.Common.Net.Core.SDK.x64*.nupkg\"\n\n& $NuGetExe sources Add -Name \"VS\" -Source $env:VS_FEED_URL -username foobar -password $args[0]\n\n& $NuGetExe push -Source \"VS\" -ApiKey VSTS $Nupkg",
+        "inlineScript": "$NuGetExe = Join-Path $env:BUILD_REPOSITORY_LOCALPATH \".nuget\\nuget.exe\"\n$Nupkg = Join-Path $env:BUILD_REPOSITORY_LOCALPATH \"artifacts\\$env:RID\\packages\\VS.Redist.Common.Net.Core.SDK.x86*.nupkg\"\n\n& $NuGetExe sources Add -Name \"VS\" -Source $env:VS_FEED_URL -username foobar -password $args[0]\n\n& $NuGetExe push -Source \"VS\" -ApiKey VSTS $Nupkg",
         "workingFolder": "",
         "failOnStandardError": "true"
       }
@@ -510,6 +488,9 @@
       "value": "",
       "allowOverride": true
     },
+    "BuildArchitecture": {
+      "value": "x86"
+    },
     "GITHUB_PASSWORD": {
       "value": "PassedViaPipeBuild"
     },
@@ -517,7 +498,7 @@
       "value": "PassedViaPipeBuild"
     },
     "ProductMoniker": {
-      "value": "Microsoft .NET Core 1.0.1 - SDK 1.0.0 Preview 4 (x64)"
+      "value": "Microsoft .NET Core 1.0.1 - SDK 1.0.0 Preview 4 (x86)"
     },
     "VS_FEED_URL": {
       "value": "https://devdiv.pkgs.visualstudio.com/_packaging/VS/nuget/v3/index.json"
@@ -536,8 +517,7 @@
       "value": "dotnet"
     },
     "CLIBUILD_SKIP_TESTS": {
-      "value": "true",
-      "allowOverride": true
+      "value": "true"
     },
     "InternalCertificateId": {
       "value": "400"
@@ -546,10 +526,10 @@
       "value": "135020001"
     },
     "RID": {
-      "value": "win81-x64"
+      "value": "win81-x86"
     },
     "MsbuildSigningArguments": {
-      "value": "/p:SkipMsBuild15Projects=True /p:Architecture=x64 /v:diag"
+      "value": "/p:SkipMsBuild15Projects=True /p:Architecture=x86 /v:diag"
     },
     "TeamName": {
       "value": "DotNetCore"
@@ -612,7 +592,7 @@
   "path": "\\",
   "type": "build",
   "id": 1,
-  "name": "Dotnet-CLI-Signing-Windows-x64",
+  "name": "Dotnet-CLI-Signing-Windows-x86",
   "project": {
     "id": "0bdbc590-a062-4c3f-b0f6-9383f67865ee",
     "name": "DevDiv",

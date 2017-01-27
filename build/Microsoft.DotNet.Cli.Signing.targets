@@ -109,7 +109,7 @@
       <FilesToSign Include="$(OutputDirectory)shared/**/Microsoft.*.dll">
         <Authenticode>$(InternalCertificateId)</Authenticode>
       </FilesToSign>
-      <FilesToSign Include="$(OutputDirectory)shared/**/Microsoft.*.dll">
+      <FilesToSign Include="$(OutputDirectory)shared/**/System.*.dll">
         <Authenticode>$(InternalCertificateId)</Authenticode>
       </FilesToSign>
     </ItemGroup>
