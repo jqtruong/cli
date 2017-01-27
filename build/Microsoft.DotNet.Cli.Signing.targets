@@ -18,7 +18,7 @@
   <Target Name="PostCompileSign" DependsOnTargets="GetPostCompileSignFiles">
     <CallTarget Targets="SignFiles" />
   </Target>
-  
+
   <Target Name="GetPostCompileSignFiles" DependsOnTargets="Init">
     <ItemGroup>
       <!-- External files -->
@@ -97,6 +97,24 @@
     </ItemGroup>
   </Target>
 
+  <Target Name="SignSharedFrameworkCrossgenedAssemblies" DependsOnTargets="GetSignSharedFrameworkCrossgenedAssembliesFiles">
+    <CallTarget Targets="SignFiles" />
+  </Target>
+
+  <Target Name="GetSignSharedFrameworkCrossgenedAssembliesFiles" DependsOnTargets="Init">
+    <PropertyGroup>
+      <OutDir>$(OutputDirectory)shared</OutDir>
+    </PropertyGroup>
+    <ItemGroup>
+      <FilesToSign Include="$(OutputDirectory)shared/**/Microsoft.*.dll">
+        <Authenticode>$(InternalCertificateId)</Authenticode>
+      </FilesToSign>
+      <FilesToSign Include="$(OutputDirectory)shared/**/Microsoft.*.dll">
+        <Authenticode>$(InternalCertificateId)</Authenticode>
+      </FilesToSign>
+    </ItemGroup>
+  </Target>
+
   <Target Name="SignMsiAndCab" DependsOnTargets="GetSignMsiAndCabFiles">
     <CallTarget Targets="SignFiles" />
   </Target>
@@ -144,5 +162,38 @@
       </FilesToSign>
     </ItemGroup>
   </Target>
+
+  <Target Name="BeforeBuild" BeforeTargets="InitializeCommonProps" Condition="'$(SkipMsBuild15Projects)' == 'True'">
+    <HandleAssemblyResolve SearchPath="$(RepoRoot)\build_tools" />
+  </Target>
+  <UsingTask TaskName="HandleAssemblyResolve" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll" Condition="'$(SkipMsBuild15Projects)' == 'True'" >
+    <ParameterGroup>
+      <SearchPath ParameterType="System.String" Required="true" />
+    </ParameterGroup>
+    <Task>
+      <Using Namespace="System" />
+      <Using Namespace="System.IO" />
+      <Using Namespace="System.Reflection" />
+      <Code Type="Fragment" Language="cs">
+        <![CDATA[
+AppDomain.CurrentDomain.AssemblyResolve += (sender, e) => 
+{ 
+  var assemblySearchPath = Path.Combine(SearchPath, e.Name.Split(',')[0] + ".dll");
+  Console.WriteLine("Searching " + assemblySearchPath);
+  if (File.Exists(assemblySearchPath)) 
+  {
+    Console.WriteLine("Found");
+    return Assembly.LoadFrom(assemblySearchPath);
+  }
+  else
+  {
+    Console.WriteLine("Not found");
+  }
+  return null;
+};
+]]>
+      </Code>
+    </Task>
+  </UsingTask>
 
 </Project>
