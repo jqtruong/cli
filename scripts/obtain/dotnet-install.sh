@@ -68,7 +68,7 @@ get_current_os_name() {
             . /etc/os-release
 
             if [[ $ID == "arch" ]]; then
-                echo "arch"
+                echo "fedora.24"
                 return 0
             fi
 
